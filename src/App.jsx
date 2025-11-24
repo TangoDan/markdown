@@ -9,40 +9,47 @@ import { markdown } from '@codemirror/lang-markdown';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { EditorView } from '@codemirror/view'; 
 
+// Diccionario de traducciones
+const TRANSLATIONS = {
+  es: {
+    title: "Markdown Express",
+    subtitle: "Escribe en Markdown. Ve el resultado al instante. Sin registro. 100% gratis.",
+    idealTitle: "🚀 Ideal para:",
+    idealList: "Escritores técnicos • Profesores de programación • Creadores en Notion/Obsidian",
+    hidePreview: "📝 Ocultar Vista Previa",
+    showPreview: "👀 Mostrar Vista Previa",
+    upload: "📂 Cargar .md",
+    download: "💾 Descargar .md",
+    placeholder: "# ¡Funciona! 🎉\n\nSi ocultas la vista previa, este editor ocupará el 100% de la pantalla.\n\n---\n\n## Instrucciones:\n1. Usa el botón **'Ocultar Vista Previa'**.\n2. El editor debe expandirse totalmente.\n"
+  },
+  en: {
+    title: "Markdown Express",
+    subtitle: "Write in Markdown. See result instantly. No signup. 100% free.",
+    idealTitle: "🚀 Ideal for:",
+    idealList: "Technical Writers • Coding Instructors • Notion/Obsidian Creators",
+    hidePreview: "📝 Hide Preview",
+    showPreview: "👀 Show Preview",
+    upload: "📂 Load .md",
+    download: "💾 Download .md",
+    placeholder: "# It Works! 🎉\n\nIf you hide the preview, this editor will take up 100% of the screen.\n\n---\n\n## Instructions:\n1. Use the **'Hide Preview'** button.\n2. The editor should expand fully.\n"
+  }
+};
+
 function App() {
   
   // 1. ESTADOS Y REFERENCIAS
-  // CRÍTICO: Controla la visibilidad y, por CSS, la expansión del editor.
+  // Estado de idioma (por defecto intenta leer localStorage o usa español)
+  const [language, setLanguage] = useState(() => localStorage.getItem('app_lang') || 'es');
+  const t = TRANSLATIONS[language]; // Acceso rápido a textos actuales
+
   const [showPreview, setShowPreview] = useState(true); 
   const previewRef = useRef(null); 
   const codeMirrorRef = useRef(null); 
   const [isScrolling, setIsScrolling] = useState(null); 
   
-  const [markdownText, setMarkdownText] = useState(
-`# ¡Editor Listo! 🎉
-
-Ahora el botón "Ocultar Vista Previa" funciona correctamente:
-
-1. **Expansión al 100%:** El editor ocupa el 100% de ancho de la pantalla al ocultar la vista previa.
-2. **Redibujado Forzado:** El editor se redibuja correctamente sin quedarse a 50% de ancho.
-
----
-
-## Próximas pasos:
-- Sincronización del scroll: Pruébala, está implementada.
-- Manejo de archivos: Carga y descarga tu Markdown.
-
-### Código de ejemplo
-\`\`\`javascript
-function saludar() {
-  console.log("¡Todo funcionando!");
-}
-saludar();
-\`\`\`
-`
-  );
+  const [markdownText, setMarkdownText] = useState(t.placeholder);
   
-  // 2. CONFIGURACIÓN DE MARKED (con Highlight.js)
+  // 2. CONFIGURACIÓN DE MARKED
   marked.setOptions({
     breaks: true,
     highlight: (code, lang) => {
@@ -55,14 +62,13 @@ saludar();
     return { __html: marked(markdownText) };
   };
 
-  // 3. FUNCIONES DE MANEJO
-  
-  // FUNCIÓN CRÍTICA: Cambia el estado de la vista previa
-  const togglePreview = () => {
-    setShowPreview(prev => !prev);
+  // 3. FUNCIONES DE ARCHIVOS Y UTILIDADES
+  const toggleLanguage = () => {
+    const newLang = language === 'es' ? 'en' : 'es';
+    setLanguage(newLang);
+    localStorage.setItem('app_lang', newLang);
   };
-  
-  // Manejo de Descarga
+
   const handleDownload = () => {
     const blob = new Blob([markdownText], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
@@ -75,7 +81,6 @@ saludar();
     URL.revokeObjectURL(url);
   };
 
-  // Manejo de Carga de Archivo
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -84,8 +89,8 @@ saludar();
       reader.readAsText(file);
     }
   };  
-  
-  // 4. SCROLL SYNC LOGIC (Optimizado con useCallback)
+
+  // 4. SCROLL SYNC
   const syncScroll = (sourceElement, targetElement) => {
     if (!sourceElement || !targetElement) return;
     const scrollRatio = sourceElement.scrollTop / (sourceElement.scrollHeight - sourceElement.clientHeight);
@@ -93,12 +98,11 @@ saludar();
   };
 
   const handleEditorScroll = useCallback((event) => {
-    // Solo sincroniza si la vista previa está visible
     if (isScrolling === 'preview' || !showPreview) return;
     setIsScrolling('editor');
     const previewElement = previewRef.current;
     if (previewElement) syncScroll(event.target, previewElement);
-    setTimeout(() => setIsScrolling(null), 50); 
+    setTimeout(() => setIsScrolling(null), 50);
   }, [isScrolling, showPreview]); 
 
   const handlePreviewScroll = useCallback((event) => {
@@ -113,20 +117,21 @@ saludar();
       setTimeout(() => setIsScrolling(null), 50);
   }, [isScrolling]);
 
-
-  // 5. USE EFFECTS
-
-  // Efectos para Local Storage
+  // 5. LOCAL STORAGE Y SETUP
   useEffect(() => {
     const savedText = localStorage.getItem('markdown_editor_content');
-    if (savedText) setMarkdownText(savedText);
-  }, []); 
+    // Si hay texto guardado, lo usamos. Si no, usamos el placeholder del idioma actual
+    if (savedText) {
+        setMarkdownText(savedText);
+    } else {
+        setMarkdownText(t.placeholder);
+    }
+  }, []); // Solo al montar
 
   useEffect(() => {
     localStorage.setItem('markdown_editor_content', markdownText);
   }, [markdownText]); 
 
-  // Efecto para adjuntar el listener de scroll al editor
   useEffect(() => {
     const editorView = codeMirrorRef.current?.view;
     if (!editorView || !editorView.dom) return;
@@ -137,51 +142,62 @@ saludar();
     }
   }, [handleEditorScroll]);
 
-  // EFECTO CRÍTICO: FORZAR REDIMENSIONAMIENTO DE CODEMIRROR
-  // Se ejecuta CADA VEZ que el estado showPreview cambia (al presionar el botón)
+  // 7. REDIMENSIONAMIENTO
   useEffect(() => {
-    if (codeMirrorRef.current?.view) {
-        // Obliga a CodeMirror a recalcular su ancho
-        codeMirrorRef.current.view.requestMeasure();
-        window.dispatchEvent(new Event('resize')); 
-    }
-  }, [showPreview]); 
+    setTimeout(() => {
+        if (codeMirrorRef.current?.view) {
+            codeMirrorRef.current.view.requestMeasure();
+        }
+        window.dispatchEvent(new Event('resize'));
+    }, 100);
+  }, [showPreview]);
 
 
   // 6. RENDERIZADO
   return (
     <div className="app-container">
-      <h1>Editor Markdown Online</h1>
+      
+      {/* NUEVO HEADER FLEXIBLE */}
+      <header className="app-header">
+        <div className="header-left">
+            <h1>{t.title}</h1>
+            <p className="subtitle">{t.subtitle}</p>
+        </div>
+        
+        <div className="header-right">
+            <div className="marketing-text">
+                <strong>{t.idealTitle}</strong> <br/>
+                <span>{t.idealList}</span>
+            </div>
+            
+            <div className="toolbar">
+                <button onClick={toggleLanguage} className="lang-button">
+                    {language === 'es' ? '🇺🇸 EN' : '🇪🇸 ES'}
+                </button>
 
-      <div className="toolbar">
-          
-          {/* BOTÓN TOGGLE (Ocultar/Mostrar Vista Previa) */}
-          <button onClick={togglePreview} className="download-button">
-              {showPreview ? '📝 Ocultar Vista Previa' : '👀 Mostrar Vista Previa'}
-          </button>
+                <button onClick={() => setShowPreview(!showPreview)} className="action-button secondary">
+                    {showPreview ? t.hidePreview : t.showPreview}
+                </button>
+                
+                <label htmlFor="file-upload" className="upload-label">
+                    {t.upload}
+                </label>
+                <input 
+                    id="file-upload"
+                    type="file"
+                    accept=".md, .markdown"
+                    onChange={handleFileUpload}
+                    style={{ display: 'none' }}
+                />
 
-          {/* Cargar Archivo */}
-          <label htmlFor="file-upload" className="upload-label">
-              📂 Cargar .md
-          </label>
-          <input 
-              id="file-upload"
-              type="file"
-              accept=".md, .markdown"
-              onChange={handleFileUpload}
-              style={{ display: 'none' }}
-          />
-          
-          {/* Descargar Archivo */}
-          <button onClick={handleDownload} className="download-button">
-              💾 Descargar .md
-          </button>
-      </div>
+                <button onClick={handleDownload} className="action-button primary">
+                    {t.download}
+                </button>
+            </div>
+        </div>
+      </header>
 
       <div className="editor-layout">
-        
-        {/* PANEL IZQUIERDO: EDITOR */}
-        {/* CRÍTICO: Clase condicional 'expanded' para el CSS */}
         <div className={`editor-pane ${!showPreview ? 'expanded' : ''}`}> 
             <CodeMirror
                 className="cm-theme-wrapper" 
@@ -195,8 +211,6 @@ saludar();
             />
         </div>
         
-        {/* PANEL DERECHO: VISTA PREVIA (Condicional) */}
-        {/* CRÍTICO: Condicional que quita el div del DOM cuando showPreview es falso */}
         {showPreview && (
             <div
               className="preview-pane"
