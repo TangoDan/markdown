@@ -1,0 +1,171 @@
+/* 1. Reset global */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Evita scroll en el body */
+}
+
+/* 2. Contenedor Principal */
+.app-container {
+    padding: 20px;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin: 0 0 10px 0;
+    flex-shrink: 0; 
+}
+
+/* 3. Layout de los Paneles */
+.editor-layout {
+    display: flex;
+    flex-grow: 1;      
+    gap: 15px;
+    min-height: 0;     
+    overflow: hidden; 
+}
+
+/* --- ZONA DEL EDITOR (IZQUIERDA) --- */
+.editor-pane {
+    /* Flex 1 hace que ocupe todo el espacio disponible automáticamente.
+       Si la vista previa desaparece, esto pasará a ser el 100% naturalmente. */
+    flex: 1; 
+    min-width: 0; 
+    
+    /* IMPORTANTE: Sin 'transition'. Las animaciones rompen el cálculo de CodeMirror */
+    
+    height: 100%;      
+    display: flex;     
+    flex-direction: column;
+    overflow: hidden;  
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Aseguramos que CodeMirror llene el panel */
+.cm-theme-wrapper, .cm-editor {
+    height: 100%;
+    width: 100%;
+}
+
+.cm-scroller {
+    flex-grow: 1;
+    overflow: auto !important;
+    height: 100% !important;
+}
+
+/* --- ZONA DE VISTA PREVIA (DERECHA) --- */
+.preview-pane {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    height: 100%;
+}
+
+/* --- TOOLBAR --- */
+.toolbar {
+    margin-bottom: 10px;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0; 
+}
+
+.download-button, .upload-label {
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.download-button { background-color: #007bff; }
+.download-button:hover { background-color: #0056b3; }
+.upload-label { background-color: #6c757d; display: inline-block; }
+.upload-label:hover { background-color: #5a6268; }
+
+/* --- 1. ESTILOS DE TABLAS (Como en la figura) --- */
+
+.preview-pane table {
+    /* Ocupa todo el ancho disponible */
+    width: 100%; 
+    /* Colapsar los bordes en uno solo */
+    border-collapse: collapse;
+    /* Fuente ligeramente más pequeña */
+    font-size: 0.9em;
+    /* Mínimo espacio arriba y abajo */
+    margin: 1.5em 0;
+}
+
+/* Bordes para todas las celdas */
+.preview-pane th, 
+.preview-pane td {
+    border: 1px solid #ddd; /* Borde gris muy suave */
+    padding: 8px 12px;
+    text-align: left;
+}
+
+/* Estilo para el encabezado de la tabla */
+.preview-pane th {
+    background-color: #f2f2f2; /* Fondo gris claro */
+    font-weight: bold; /* Letra negrita */
+    color: #333;
+}
+
+/* Quitar el fondo para las celdas de datos */
+.preview-pane tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fondo muy ligeramente diferente para filas pares (Opcional) */
+}
+
+/* --- 2. BLOQUES DE CÓDIGO (Multi-línea <pre><code>) --- */
+
+.preview-pane pre {
+    /* Asegura que el texto se envuelva y tenga espacio */
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto; /* Permite scroll horizontal si la línea es muy larga */
+    margin: 1.5em 0;
+}
+
+.preview-pane pre code {
+    /* Forzamos una fuente monoespaciada para el código */
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    /* Opcional: Aumentar el tamaño de fuente si es necesario */
+    font-size: 0.95em; 
+    /* Sobrescribimos el padding/fondo de las reglas genéricas */
+    padding: 0;
+    background-color: transparent; 
+}
+
+/* --- 3. BLOQUES DE CITA (Blockquotes) --- */
+
+.preview-pane blockquote {
+    /* Barra gris a la izquierda */
+    border-left: 4px solid #ccc; 
+    /* Padding para que el contenido no toque la barra */
+    padding: 10px 15px; 
+    /* Fondo ligeramente diferente */
+    background-color: #f9f9f9; 
+    /* Letra ligeramente inclinada/gris */
+    color: #555;
+    font-style: italic;
+    border-radius: 0 4px 4px 0; /* Bordes redondeados solo a la derecha */
+    margin: 1.5em 0;
+}
