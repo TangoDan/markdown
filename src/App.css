@@ -1,222 +1,414 @@
 /* 1. Reset global */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden; /* Evita scroll en el body */
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* 2. Contenedor Principal */
 .app-container {
-    padding: 15px 20px; /* Reduje un poco el padding vertical */
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: #f4f4f9; /* Fondo ligeramente gris para contraste */
+  padding: 15px 20px;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f9;
 }
 
-/* --- NUEVO HEADER ESTILO DASHBOARD --- */
+/* HEADER */
 .app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    flex-shrink: 0;
-    background: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+  background: #ffffff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Izquierda: Título y Subtítulo */
 .header-left {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
-    text-align: left;
-    color: #2c3e50;
-    margin: 0;
-    font-size: 1.8rem;
-    letter-spacing: -0.5px;
+  text-align: left;
+  color: #2c3e50;
+  margin: 0;
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-    margin: 4px 0 0 0;
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    font-weight: 400;
+  margin: 4px 0 0 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
-/* Derecha: Marketing y Botones */
 .header-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 }
 
 .marketing-text {
-    text-align: right;
-    font-size: 0.8rem;
-    color: #555;
-    line-height: 1.3;
-    background-color: #f8f9fa;
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid #eee;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #555;
+  line-height: 1.3;
+  background-color: #f8f9fa;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid #eee;
 }
 
 .marketing-text strong {
-    color: #d35400; /* Un color naranja/ladrillo para resaltar */
+  color: #d35400;
 }
 
-/* --- TOOLBAR --- */
+/* TOOLBAR */
 .toolbar {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-/* Botones Generales */
-.action-button, .upload-label, .lang-button {
-    padding: 8px 15px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Botón Idioma */
+/* Botones generales */
+.action-button,
+.upload-label,
 .lang-button {
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ccc;
+  padding: 8px 15px;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
-.lang-button:hover { background-color: #f0f0f0; }
 
-/* Botón Primario (Descargar) */
-.action-button.primary { background-color: #007bff; }
-.action-button.primary:hover { background-color: #0056b3; }
+/* Primario (download) */
+.action-button.primary {
+  background-color: #007bff;
+}
+.action-button.primary:hover {
+  background-color: #0056b3;
+}
 
-/* Botón Secundario (Toggle Preview) */
-.action-button.secondary { background-color: #17a2b8; }
-.action-button.secondary:hover { background-color: #138496; }
+/* Secundario (toggle preview) */
+.action-button.secondary {
+  background-color: #17a2b8;
+}
+.action-button.secondary:hover {
+  background-color: #138496;
+}
 
-/* Botón Subir */
-.upload-label { background-color: #6c757d; display: inline-block; }
-.upload-label:hover { background-color: #5a6268; }
+/* Upload */
+.upload-label {
+  background-color: #6c757d;
+  display: inline-block;
+}
+.upload-label:hover {
+  background-color: #5a6268;
+}
 
+/* BOTÓN DE IDIOMA */
+.lang-button {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #cccccc;
+  padding: 6px 12px;
+}
+
+.lang-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Texto del idioma en el botón */
+.lang-label {
+  font-size: 13px;
+  font-weight: 500;
+}
 
 /* 3. Layout de los Paneles */
 .editor-layout {
-    display: flex;
-    flex-grow: 1;      
-    gap: 15px;
-    min-height: 0;     
-    overflow: hidden; 
+  display: flex;
+  flex-grow: 1;
+  gap: 15px;
+  min-height: 0;
+  overflow: hidden;
 }
 
-/* --- ZONA DEL EDITOR (IZQUIERDA) --- */
+/* Editor (izquierda) */
 .editor-pane {
-    flex: 1; 
-    min-width: 0; 
-    height: 100%;      
-    display: flex;     
-    flex-direction: column;
-    overflow: hidden;  
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra sutil */
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #dddddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cuando no hay preview, que ocupe todo */
+.editor-pane.expanded {
+  flex: 1 1 100%;
 }
 
 /* Aseguramos que CodeMirror llene el panel */
-.cm-theme-wrapper, .cm-editor {
-    height: 100%;
-    width: 100%;
+.cm-theme-wrapper,
+.cm-editor {
+  height: 100%;
+  width: 100%;
 }
 
 .cm-scroller {
-    flex-grow: 1;
-    overflow: auto !important;
-    height: 100% !important;
+  flex-grow: 1;
+  overflow: auto !important;
+  height: 100% !important;
 }
 
-/* --- ZONA DE VISTA PREVIA (DERECHA) --- */
+/* Preview (derecha) */
 .preview-pane {
-    flex: 1;
-    padding: 20px; /* Más padding para mejor lectura */
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background-color: #fff; /* Fondo blanco puro */
-    overflow-y: auto;
-    height: 100%;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  height: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-
-/* --- 1. ESTILOS DE TABLAS --- */
+/* --- ESTILOS DE TABLAS --- */
 .preview-pane table {
-    width: 100%; 
-    border-collapse: collapse;
-    font-size: 0.9em;
-    margin: 1.5em 0;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  margin: 1.5em 0;
 }
 
-.preview-pane th, .preview-pane td {
-    border: 1px solid #ddd;
-    padding: 8px 12px;
-    text-align: left;
+.preview-pane th,
+.preview-pane td {
+  border: 1px solid #dddddd;
+  padding: 8px 12px;
+  text-align: left;
 }
 
 .preview-pane th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #333;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333333;
 }
 
 .preview-pane tr:nth-child(even) {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
-/* --- 2. BLOQUES DE CÓDIGO --- */
+/* --- BLOQUES DE CÓDIGO --- */
 .preview-pane pre {
-    padding: 15px;
-    border-radius: 5px;
-    overflow-x: auto;
-    margin: 1.5em 0;
-    background-color: #282c34; /* Fondo oscuro para código */
-    color: #abb2bf;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin: 1.5em 0;
+  background-color: #282c34;
+  color: #abb2bf;
 }
 
 .preview-pane pre code {
-    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 0.95em; 
-    padding: 0;
-    background-color: transparent; 
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 0.95em;
+  padding: 0;
+  background-color: transparent;
 }
 
-/* --- 3. BLOQUES DE CITA --- */
+/* --- BLOQUES DE CITA --- */
 .preview-pane blockquote {
-    border-left: 4px solid #007bff; /* Azul moderno */
-    padding: 10px 15px; 
-    background-color: #f1f8ff; /* Fondo azul muy tenue */
-    color: #555;
-    font-style: italic;
-    border-radius: 0 4px 4px 0;
-    margin: 1.5em 0;
+  border-left: 4px solid #007bff;
+  padding: 10px 15px;
+  background-color: #f1f8ff;
+  color: #555555;
+  font-style: italic;
+  border-radius: 0 4px 4px 0;
+  margin: 1.5em 0;
+}
+
+/* SELECTOR DE IDIOMA (MENÚ) */
+.lang-selector {
+  position: relative;
+}
+
+/* Menú desplegable */
+.lang-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  z-index: 20;
+  min-width: 160px;
+  padding: 4px;
+}
+
+/* Ítems del menú */
+.lang-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+}
+
+.lang-menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.lang-menu-item.active {
+  font-weight: 600;
+  background-color: #eef3ff;
+}
+
+.lang-menu-text {
+  flex: 1;
+}
+
+/* BANDERAS */
+.flag-icon {
+  width: 20px;
+  height: 14px;
+  border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajustá las rutas según tu estructura real de carpetas */
+.flag-en {
+  background-image: url("./assets/flags/us.svg");
+}
+
+.flag-es {
+  background-image: url("./assets/flags/sp.svg");
+}
+
+.flag-pt {
+  background-image: url("./assets/flags/pt.svg");
+}
+
+/* BOTÓN DE IDIOMA */
+.lang-button {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-button:hover {
+  background-color: #f0f0f0;
+}
+
+.lang-label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* CONTENEDOR DEL SELECTOR */
+.lang-selector {
+  position: relative;
+}
+
+/* MENÚ DESPLEGABLE */
+.lang-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  z-index: 20;
+  min-width: 160px;
+  padding: 4px;
+}
+
+.lang-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+}
+
+.lang-menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+.lang-menu-item.active {
+  font-weight: 600;
+  background-color: #eef3ff;
+}
+
+.lang-menu-text {
+  flex: 1;
+}
+
+/* BANDERAS SVG */
+.flag-icon {
+  width: 20px;
+  height: 14px;
+  border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+/* ajustá estos nombres a tus archivos reales */
+.flag-en {
+  background-image: url("./assets/flags/us.svg");
+}
+
+.flag-es {
+  background-image: url("./assets/flags/sp.svg");  /* tu archivo se llama sp.svg */
+}
+
+.flag-pt {
+  background-image: url("./assets/flags/pt.svg");
 }

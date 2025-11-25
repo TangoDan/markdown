@@ -1,0 +1,32 @@
+{
+  "app": {
+    "title": "Editor Markdown Online",
+    "subtitle": "Escribe en Markdown. Ve el resultado al instante. Sin registro. 100% gratis.",
+    "idealTitle": "🚀 Ideal para:",
+    "idealList": "Escritores técnicos, Profesores de programación',Creadores de contenido en Notion/Obsidian"
+  },
+  "editor": {
+    "title": "Editor",
+    "placeholder": "✍️ ¡Listo para escribir! Empieza a editar en la izquierda y mira el resultado en vivo a la derecha."
+},
+  "preview": {
+    "title": "Previsualización"
+  },
+  "buttons": {
+    "copy": "Copiar",
+    "clear": "Limpiar",
+    "theme_light": "Tema claro",
+    "theme_dark": "Tema oscuro",
+    "hidePreview": "👀 Mostrar vista previa",
+    "showPreview": "📝 Ocultar vista previa",
+    "upload": "📂 Load .md",
+    "download": "💾 Download .md"
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "messages": {
+    "copied": "¡Copiado al portapapeles!",
+    "cleared": "Editor limpiado"
+  }
+}

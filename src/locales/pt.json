@@ -1,0 +1,17 @@
+{
+  "app": {
+    "title": "Markdown Express",
+    "subtitle": "Escreva em Markdown. Veja o resultado na hora. Sem cadastro. 100% grátis.",
+    "idealTitle": "🚀 Ideal para:",
+    "idealList": "Redatores técnicos • Professores de programação • Criadores em Notion/Obsidian"
+  },
+  "buttons": {
+    "hidePreview": "📝 Ocultar Pré-visualização",
+    "showPreview": "👀 Mostrar Pré-visualização",
+    "upload": "📂 Carregar .md",
+    "download": "💾 Baixar .md"
+  },
+  "editor": {
+    "placeholder": "# Pronto para escrever! 🎉\n\nSe você ocultar a pré-visualização, este editor ocupará 100% da tela.\n\n---\n\n## Instruções:\n1. Use o botão **'Ocultar Pré-visualização'**.\n2. O editor deve se expandir totalmente.\n"
+  }
+}
