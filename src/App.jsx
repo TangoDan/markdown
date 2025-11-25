@@ -54,6 +54,11 @@ function App() {
 
   // Texto del editor
   const [markdownText, setMarkdownText] = useState("");
+    const track = (eventName, props) => {
+    if (window.plausible) {
+      window.plausible(eventName, props ? { props } : undefined);
+    }
+  };
 
   // Configuración global de marked + highlight.js
   useEffect(() => {
@@ -84,6 +89,9 @@ function App() {
 
   // Cambiar idioma desde el menú
   const handleLanguageChange = (lang) => {
+
+    track("change_lang", { lang });   // 👈 evento con prop "lang"
+
     setLanguage(lang);
     localStorage.setItem("app_lang", lang);
     setIsLangMenuOpen(false);
@@ -91,6 +99,9 @@ function App() {
 
   // Descargar archivo .md
   const handleDownload = () => {
+
+    track("download_md");          // 👈 evento Plausible para medir
+
     const blob = new Blob([markdownText], { type: "text/markdown" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -106,6 +117,9 @@ function App() {
   const handleFileUpload = (event) => {
     const file = event.target.files?.[0];
     if (file) {
+
+      track("upload_md");          // 👈 evento Plausible
+
       const reader = new FileReader();
       reader.onload = (e) => {
         if (typeof e.target?.result === "string") {
@@ -163,6 +177,14 @@ function App() {
   // Guardar contenido del editor en localStorage
   useEffect(() => {
     localStorage.setItem("markdown_editor_content", markdownText);
+
+    if (markdownText && markdownText.length > 5) {
+      // Marco que este usuario realmente usó el editor
+      if (!localStorage.getItem("editor_used_once")) {
+        localStorage.setItem("editor_used_once", "1");
+        track("first_time_typing");
+      }
+    }
   }, [markdownText]);
 
   // Suscribir scroll del editor
