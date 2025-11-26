@@ -53,7 +53,7 @@ function App() {
   // Refs para sincronizar scroll
   const previewRef = useRef(null);
   const codeMirrorRef = useRef(null);
-  const [isScrolling, setIsScrolling] = useState(null);
+  const isSyncingRef = useRef(null);
 
   // Texto del editor
   const [markdownText, setMarkdownText] = useState("");
@@ -177,33 +177,43 @@ function App() {
 
   const handleEditorScroll = useCallback(
     (event) => {
-      if (isScrolling === "preview" || !showPreview) return;
-      setIsScrolling("editor");
+      if (!showPreview) return;
+
+      // Si el último scroll lo disparó el preview, no volvemos a sincronizar
+      if (isSyncingRef.current === "preview") return;
+
+      isSyncingRef.current = "editor";
+
       const previewElement = previewRef.current;
       if (previewElement) {
         syncScroll(event.target, previewElement);
       }
-      setTimeout(() => setIsScrolling(null), 50);
-    },
-    [isScrolling, showPreview]
-  );
 
-  const handlePreviewScroll = useCallback(
-    (event) => {
-      if (isScrolling === "editor" || !codeMirrorRef.current) return;
-      setIsScrolling("preview");
-      const previewElement = event.target;
-      const editorView = codeMirrorRef.current.view;
-      if (editorView && editorView.dom) {
-        const editorScroller = editorView.dom.querySelector(".cm-scroller");
-        if (editorScroller) {
-          syncScroll(previewElement, editorScroller);
-        }
-      }
-      setTimeout(() => setIsScrolling(null), 50);
+      // Liberamos el bloqueo en el siguiente frame
+      window.requestAnimationFrame(() => {
+        isSyncingRef.current = null;
+      });
     },
-    [isScrolling]
+    [showPreview]
   );
+  const handlePreviewScroll = useCallback((event) => {
+    const editorView = codeMirrorRef.current?.view;
+    if (!editorView) return;
+
+    // Si el último scroll lo disparó el editor, no volvemos a sincronizar
+    if (isSyncingRef.current === "editor") return;
+
+    isSyncingRef.current = "preview";
+
+    const editorScroller = editorView.dom.querySelector(".cm-scroller");
+    if (editorScroller) {
+      syncScroll(event.target, editorScroller);
+    }
+
+    window.requestAnimationFrame(() => {
+      isSyncingRef.current = null;
+    });
+  }, []);
 
   //Agregá este efecto para aplicarlo al body
   useEffect(() => {
@@ -318,7 +328,7 @@ function App() {
             </button>
 
             {/* 👉 NUEVO: "🌙" : "☀️" */}
-                        <button
+            <button
               type="button"
               onClick={toggleTheme}
               className="theme-toggle"
