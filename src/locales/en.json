@@ -1,13 +1,13 @@
 {
   "app": {
     "title": "Markdown Express",
-    "subtitle": "Write in Markdown. See result instantly. No signup. 100% free.",
+    "subtitle": "Write in Markdown. See the result instantly. No sign-up. 100% free.",
     "idealTitle": "🚀 Ideal for:",
-    "idealList": "Technical Writers • Coding Instructors • Notion/Obsidian Creators"
+    "idealList": "Technical writers, Programming teachers, Content creators in Notion/Obsidian"
   },
   "editor": {
     "title": "Editor",
-    "placeholder": "✍️ Ready to write! Start editing on the left and see the live result on the right."
+    "placeholder": ""
   },
   "preview": {
     "title": "Preview"
@@ -17,9 +17,9 @@
     "clear": "Clear",
     "theme_light": "Light theme",
     "theme_dark": "Dark theme",
-    "hidePreview": "👀 Show Preview",
-    "showPreview": "📝 Hide Preview",
-    "upload": "📂 Load .md",
+    "hidePreview": "📝 Hide preview",
+    "showPreview": "👀 Show preview",
+    "upload": "📂 Upload .md",
     "download": "💾 Download .md"
   },
   "language": {

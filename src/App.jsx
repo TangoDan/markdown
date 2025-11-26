@@ -5,6 +5,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
+import { defaultMarkdowns } from "./i18n/defaultMarkdowns";
 import { marked } from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
@@ -43,6 +44,8 @@ function App() {
   );
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const t = useMemo(() => createTranslator(language), [language]);
+  const lang = language; // "es", "en", "pt"
+
 
   // Mostrar/ocultar vista previa
   const [showPreview, setShowPreview] = useState(true);
@@ -71,17 +74,37 @@ function App() {
     });
   }, []);
 
-  // Carga inicial: localStorage o placeholder según idioma
+  // Carga inicial: localStorage o texto por defecto según idioma
   useEffect(() => {
     const savedText = localStorage.getItem("markdown_editor_content");
     if (savedText && savedText.length > 0) {
       setMarkdownText(savedText);
     } else {
-      setMarkdownText(t("editor.placeholder"));
+      // 👇 acá usamos el markdown por defecto según idioma
+      setMarkdownText(defaultMarkdowns[lang] || defaultMarkdowns.es);
     }
-    // No ponemos t en dependencias para no pisar el texto al cambiar idioma
+    // No ponemos lang en dependencias para no pisar el texto al cambiar idioma
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Si cambia el idioma y el editor está vacío, cargamos el ejemplo de ese idioma
+  useEffect(() => {
+    // Solo queremos tocar el editor si NO hay nada guardado de antes
+    const savedText = localStorage.getItem("markdown_editor_content");
+    if (!savedText || savedText.length === 0) {
+      setMarkdownText(defaultMarkdowns[lang] || defaultMarkdowns.es);
+    }
+  }, [lang]);
+
+   //función para alternar light
+  const [theme, setTheme] = useState(
+  () => localStorage.getItem("app_theme") || "light"
+  );
+
+  //función para alternar
+  const toggleTheme = () => {
+  setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   const getMarkdownHtml = () => ({
     __html: marked(markdownText || ""),
@@ -130,6 +153,14 @@ function App() {
     }
   };
 
+  const handleClearEditor = () => {
+    setMarkdownText("");
+    localStorage.setItem("markdown_editor_content", "");
+
+    track("clear_editor"); // opcional: evento para Plausible
+  };
+
+
   // --- Sincronización de scroll ---
 
   const syncScroll = (sourceElement, targetElement) => {
@@ -173,6 +204,12 @@ function App() {
     },
     [isScrolling]
   );
+
+  //Agregá este efecto para aplicarlo al body
+  useEffect(() => {
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("app_theme", theme);
+  }, [theme]);
 
   // Guardar contenido del editor en localStorage
   useEffect(() => {
@@ -271,6 +308,24 @@ function App() {
               )}
             </div>
 
+            {/* 👉 NUEVO: Limpiar editor */}
+            <button
+              onClick={handleClearEditor}
+              className="action-button clear-btn"
+              type="button"
+            >
+              {t("buttons.clear")}
+            </button>
+
+            {/* 👉 NUEVO: "🌙" : "☀️" */}
+                        <button
+              type="button"
+              onClick={toggleTheme}
+              className="theme-toggle"
+            >
+              {theme === "light" ? "🌙" : "☀️"}
+            </button>
+
             {/* Toggle de vista previa */}
             <button
               onClick={() => setShowPreview((v) => !v)}
@@ -293,6 +348,7 @@ function App() {
               onChange={handleFileUpload}
               style={{ display: "none" }}
             />
+
 
             {/* Descargar archivo */}
             <button

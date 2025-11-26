@@ -19,7 +19,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #f4f4f9;
+  background-color: #f5f6fa; /* nuevo fondo */
 }
 
 /* HEADER */
@@ -32,6 +32,7 @@ body {
   background: #ffffff;
   padding: 10px 15px;
   border-radius: 8px;
+  border: 1px solid #e1e4e8; /* borde más suave */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
@@ -84,7 +85,7 @@ h1 {
   align-items: center;
 }
 
-/* Botones generales */
+/* Botones base */
 .action-button,
 .upload-label,
 .lang-button {
@@ -102,29 +103,36 @@ h1 {
   gap: 6px;
 }
 
-/* Primario (download) */
+/* PRIMARIO (Descargar .md) */
 .action-button.primary {
-  background-color: #007bff;
+  background-color: #2979ff;
 }
 .action-button.primary:hover {
-  background-color: #0056b3;
+  background-color: #1565c0;
 }
 
-/* Secundario (toggle preview) */
+/* SECUNDARIO (Vista previa) */
 .action-button.secondary {
-  background-color: #17a2b8;
+  background-color: #26a69a;
 }
 .action-button.secondary:hover {
-  background-color: #138496;
+  background-color: #1e857c;
+}
+
+/* BOTÓN LIMPIAR (Rojo pastel) */
+.action-button.clear-btn {
+  background-color: #ef5350;
+}
+.action-button.clear-btn:hover {
+  background-color: #d32f2f;
 }
 
 /* Upload */
 .upload-label {
-  background-color: #6c757d;
-  display: inline-block;
+  background-color: #757575;
 }
 .upload-label:hover {
-  background-color: #5a6268;
+  background-color: #5a5a5a;
 }
 
 /* BOTÓN DE IDIOMA */
@@ -139,13 +147,12 @@ h1 {
   background-color: #f0f0f0;
 }
 
-/* Texto del idioma en el botón */
 .lang-label {
   font-size: 13px;
   font-weight: 500;
 }
 
-/* 3. Layout de los Paneles */
+/* 3. Layout Principal */
 .editor-layout {
   display: flex;
   flex-grow: 1;
@@ -154,7 +161,7 @@ h1 {
   overflow: hidden;
 }
 
-/* Editor (izquierda) */
+/* Editor */
 .editor-pane {
   flex: 1;
   min-width: 0;
@@ -167,12 +174,11 @@ h1 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Cuando no hay preview, que ocupe todo */
+/* Cuando no hay preview */
 .editor-pane.expanded {
   flex: 1 1 100%;
 }
 
-/* Aseguramos que CodeMirror llene el panel */
 .cm-theme-wrapper,
 .cm-editor {
   height: 100%;
@@ -185,19 +191,18 @@ h1 {
   height: 100% !important;
 }
 
-/* Preview (derecha) */
+/* Preview */
 .preview-pane {
   flex: 1;
   padding: 20px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #e1e4e8;
   border-radius: 8px;
   background-color: #ffffff;
   overflow-y: auto;
-  height: 100%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* --- ESTILOS DE TABLAS --- */
+/* --- TABLAS --- */
 .preview-pane table {
   width: 100%;
   border-collapse: collapse;
@@ -222,7 +227,7 @@ h1 {
   background-color: #f9f9f9;
 }
 
-/* --- BLOQUES DE CÓDIGO --- */
+/* --- CÓDIGO --- */
 .preview-pane pre {
   padding: 15px;
   border-radius: 5px;
@@ -232,16 +237,9 @@ h1 {
   color: #abb2bf;
 }
 
-.preview-pane pre code {
-  font-family: "Consolas", "Monaco", "Courier New", monospace;
-  font-size: 0.95em;
-  padding: 0;
-  background-color: transparent;
-}
-
-/* --- BLOQUES DE CITA --- */
+/* --- BLOCKQUOTE --- */
 .preview-pane blockquote {
-  border-left: 4px solid #007bff;
+  border-left: 4px solid #2979ff;
   padding: 10px 15px;
   background-color: #f1f8ff;
   color: #555555;
@@ -250,12 +248,11 @@ h1 {
   margin: 1.5em 0;
 }
 
-/* SELECTOR DE IDIOMA (MENÚ) */
+/* SELECTOR DE IDIOMA */
 .lang-selector {
   position: relative;
 }
 
-/* Menú desplegable */
 .lang-menu {
   position: absolute;
   top: 100%;
@@ -270,7 +267,6 @@ h1 {
   padding: 4px;
 }
 
-/* Ítems del menú */
 .lang-menu-item {
   width: 100%;
   display: flex;
@@ -293,11 +289,6 @@ h1 {
   background-color: #eef3ff;
 }
 
-.lang-menu-text {
-  flex: 1;
-}
-
-/* BANDERAS */
 .flag-icon {
   width: 20px;
   height: 14px;
@@ -308,107 +299,135 @@ h1 {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
-/* Ajustá las rutas según tu estructura real de carpetas */
 .flag-en {
   background-image: url("./assets/flags/us.svg");
 }
-
 .flag-es {
   background-image: url("./assets/flags/sp.svg");
 }
-
 .flag-pt {
   background-image: url("./assets/flags/pt.svg");
 }
 
-/* BOTÓN DE IDIOMA */
-.lang-button {
-  background-color: #fff;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 6px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+/* =============================== */
+/*      MODO CLARO / OSCURO        */
+/* =============================== */
+
+/* ---------- Valores por defecto (LIGHT) ---------- */
+:root {
+  --bg: #f5f6fa;
+  --panel-bg: #ffffff;
+  --text: #2c3e50;
+  --text-secondary: #7f8c8d;
+
+  --border: #e1e4e8;
+
+  --primary: #2979ff;
+  --primary-hover: #1565c0;
+
+  --secondary: #26a69a;
+  --secondary-hover: #1e857c;
+
+  --danger: #ef5350;
+  --danger-hover: #d32f2f;
+
+  --neutral: #757575;
+  --neutral-hover: #5a5a5a;
+
+  --blockquote-bg: #f1f8ff;
+  --blockquote-border: #2979ff;
+
+  --preview-text: #222;
 }
 
-.lang-button:hover {
-  background-color: #f0f0f0;
+/* ---------- MODO OSCURO ---------- */
+[data-theme="dark"] {
+  --bg: #1e1f22;
+  --panel-bg: #2a2b2e;
+  --text: #ececec;
+  --text-secondary: #bbbbbb;
+
+  --border: #3c3f41;
+
+  --primary: #82aaff;
+  --primary-hover: #4d82f7;
+
+  --secondary: #4cd1c1;
+  --secondary-hover: #2a9f90;
+
+  --danger: #ff616f;
+  --danger-hover: #ff1744;
+
+  --neutral: #9e9e9e;
+  --neutral-hover: #7e7e7e;
+
+  --blockquote-bg: #2e3440;
+  --blockquote-border: #82aaff;
+
+  --preview-text: #e6e6e6;
 }
 
-.lang-label {
-  font-size: 13px;
-  font-weight: 500;
+/* ---------- Aplicación del tema ---------- */
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
 }
 
-/* CONTENEDOR DEL SELECTOR */
-.lang-selector {
-  position: relative;
+.app-header {
+  background-color: var(--panel-bg);
+  border-color: var(--border);
 }
 
-/* MENÚ DESPLEGABLE */
-.lang-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 4px;
-  background-color: #fff;
-  border: 1px solid #ccc;
+.preview-pane {
+  background-color: var(--panel-bg);
+  border-color: var(--border);
+  color: var(--preview-text);
+}
+
+.action-button.primary {
+  background-color: var(--primary);
+}
+.action-button.primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.action-button.secondary {
+  background-color: var(--secondary);
+}
+.action-button.secondary:hover {
+  background-color: var(--secondary-hover);
+}
+
+.action-button.clear-btn {
+  background-color: var(--danger);
+}
+.action-button.clear-btn:hover {
+  background-color: var(--danger-hover);
+}
+
+.upload-label {
+  background-color: var(--neutral);
+}
+.upload-label:hover {
+  background-color: var(--neutral-hover);
+}
+
+.preview-pane blockquote {
+  background-color: var(--blockquote-bg);
+  border-left-color: var(--blockquote-border);
+}
+
+/* SWITCH TEMA */
+.theme-toggle {
+  padding: 8px 12px;
+  font-size: 18px;
   border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-  z-index: 20;
-  min-width: 160px;
-  padding: 4px;
-}
-
-.lang-menu-item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: transparent;
-  border: none;
+  border: 1px solid var(--border);
+  background-color: var(--panel-bg);
   cursor: pointer;
-  font-size: 13px;
-  text-align: left;
+  transition: all 0.2s;
 }
-
-.lang-menu-item:hover {
-  background-color: #f5f5f5;
-}
-
-.lang-menu-item.active {
-  font-weight: 600;
-  background-color: #eef3ff;
-}
-
-.lang-menu-text {
-  flex: 1;
-}
-
-/* BANDERAS SVG */
-.flag-icon {
-  width: 20px;
-  height: 14px;
-  border-radius: 2px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
-}
-
-/* ajustá estos nombres a tus archivos reales */
-.flag-en {
-  background-image: url("./assets/flags/us.svg");
-}
-
-.flag-es {
-  background-image: url("./assets/flags/sp.svg");  /* tu archivo se llama sp.svg */
-}
-
-.flag-pt {
-  background-image: url("./assets/flags/pt.svg");
+.theme-toggle:hover {
+  background-color: var(--border);
 }

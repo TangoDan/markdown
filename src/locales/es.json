@@ -7,7 +7,7 @@
   },
   "editor": {
     "title": "Editor",
-    "placeholder": "✍️ ¡Listo para escribir! Empieza a editar en la izquierda y mira el resultado en vivo a la derecha."
+    "placeholder": "# ¡Bienvenido a Markdown Express! 🚀"
 },
   "preview": {
     "title": "Previsualización"
@@ -19,8 +19,8 @@
     "theme_dark": "Tema oscuro",
     "hidePreview": "👀 Mostrar vista previa",
     "showPreview": "📝 Ocultar vista previa",
-    "upload": "📂 Load .md",
-    "download": "💾 Download .md"
+    "upload": "📂 Cargar .md",
+    "download": "💾 Descargar .md"
   },
   "language": {
     "label": "Idioma"

@@ -3,15 +3,30 @@
     "title": "Markdown Express",
     "subtitle": "Escreva em Markdown. Veja o resultado na hora. Sem cadastro. 100% grátis.",
     "idealTitle": "🚀 Ideal para:",
-    "idealList": "Redatores técnicos • Professores de programação • Criadores em Notion/Obsidian"
+    "idealList": "Redatores técnicos, Professores de programação, Criadores de conteúdo em Notion/Obsidian"
+  },
+  "editor": {
+    "title": "Editor",
+    "placeholder": ""
+  },
+  "preview": {
+    "title": "Pré-visualização"
   },
   "buttons": {
-    "hidePreview": "📝 Ocultar Pré-visualização",
-    "showPreview": "👀 Mostrar Pré-visualização",
+    "copy": "Copiar",
+    "clear": "Limpar",
+    "theme_light": "Tema claro",
+    "theme_dark": "Tema escuro",
+    "hidePreview": "📝 Ocultar pré-visualização",
+    "showPreview": "👀 Mostrar pré-visualização",
     "upload": "📂 Carregar .md",
     "download": "💾 Baixar .md"
   },
-  "editor": {
-    "placeholder": "# Pronto para escrever! 🎉\n\nSe você ocultar a pré-visualização, este editor ocupará 100% da tela.\n\n---\n\n## Instruções:\n1. Use o botão **'Ocultar Pré-visualização'**.\n2. O editor deve se expandir totalmente.\n"
+  "language": {
+    "label": "Idioma"
+  },
+  "messages": {
+    "copied": "Copiado para a área de transferência!",
+    "cleared": "Editor limpo"
   }
 }
